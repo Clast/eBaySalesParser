@@ -85,17 +85,20 @@ def ReturnMessageBody(service, user_id, msg_id):
         bodyunconverted = message['payload']['parts'][0]['body']['data']
         body = base64.urlsafe_b64decode(bodyunconverted.encode('ASCII'))
         #body = base64.urlSafeBase64Decode(bodyunconverted)
+        #print (body)
         return body
+
     except (errors.HttpError, error):
         print('An error occurred: %s' % error)
 
 
 def GetQuantitySold(message):
     QuantitySold = re.search('(?<=Quantity Sold: )(\d*)', message.decode())
+    #print (message)
     return int(QuantitySold.group())
 
 def GetItemName(message):
-    ItemName = re.search('(?<=alt=")(.*)(?=" class="product)', message.decode())
+    ItemName = re.search('(?<=.jpg" alt=")(.*)(?=" class="product-image")', message.decode())
     return ItemName.group(0)
 
 
